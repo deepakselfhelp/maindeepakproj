@@ -34,8 +34,8 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         amount: { value: "29.00", currency: "EUR" },
         description: "Deepak Academy Monthly Membership",
-        redirectUrl: "https://checkout.realcoachdeepak.com/success.html",
-        webhookUrl: "https://checkout.realcoachdeepak.com/api/mollie/webhook",
+        redirectUrl: "https://realcoachdeepak.com/success.html",
+        webhookUrl: "https://realcoachdeepak.com/api/mollie/webhook",
         customerId: customer.id,
         sequenceType: "first", // marks it as first payment for mandate
         metadata: { name, email, planType: "DID Main Subscription" },
