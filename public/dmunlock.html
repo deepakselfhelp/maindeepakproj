@@ -114,7 +114,7 @@
     <div class="checkout-box">
       <h2>💳 Subscribe Securely</h2>
       <p>
-        <strong>Enter your details</strong> to start your monthly membership.<br><br>
+        <strong>Enter your details</strong> for Dating Mastery<br><br>
         <span style="font-size:14px; color:#ccc;">
           💡 Please use the <strong>same email</strong> as your community login for quick activation.
         </span>
@@ -122,7 +122,7 @@
 
       <input id="name" type="text" placeholder="Full Name" />
       <input id="email" type="email" placeholder="Email (required)" required />
-      <button id="subscribeBtn">Start €29 Subscription</button>
+      <button id="subscribeBtn">Only €549</button>
 
       <p style="color:#aaa; font-size:13px; margin-top:12px;">Secure checkout powered by Mollie.</p>
     </div>
@@ -130,15 +130,15 @@
 
   <!-- LEFT SIDE -->
   <div class="left">
-    <h1>🔥 Join NOW Dating Infields Domination 🔥</h1>
-    <p>Get the Dating Product Of This Century and learn the game by real life infields and take your dating life the the next level</p>
+    <h1>🔥 Join NOW Dating Mastery Fully Unlocked 🔥</h1>
+    <p>Get Dating Mastery Now and learn to attract hight quality girls and haven an amazing dating life </p>
 
-    <img src="assets/img/dating infields domination.png" alt="Hero" class="hero">
+    <img src="assets/img/dmcompleteunlock.jpg" alt="Hero" class="hero">
 
     <ul>
+	  <li>Access to fully unlocked Dating Mastery</li>
       <li>Access to premium video lessons</li>
-      <li>Access to infields</li>
-      <li>Access to infields breakdowns</li>
+      <li>Access to deomnstration videos of skills</li>
       <li>Exclusive community access</li>
     </ul>
 
@@ -212,9 +212,9 @@ subscribeBtn.addEventListener("click", async () => {
       body: JSON.stringify({
   name,
   email,
-  initialAmount: "29.00",
-  recurringAmount: "29.00",
-  planType: "DID Main Monthly"
+  initialAmount: "549.00",
+  recurringAmount: "0.00",
+  planType: "DM Fully Unlocked"
 })
     });
 
@@ -226,13 +226,13 @@ subscribeBtn.addEventListener("click", async () => {
       alert("❌ Error creating subscription. Please try again later.");
       console.error(data);
       subscribeBtn.disabled = false;
-      subscribeBtn.textContent = "Start €29 Subscription";
+      subscribeBtn.textContent = "Only €549";
     }
   } catch (err) {
     alert("🌐 Network error. Please try again.");
     console.error(err);
     subscribeBtn.disabled = false;
-    subscribeBtn.textContent = "Start €29 Subscription";
+    subscribeBtn.textContent = "Only €549";
   }
 });
 
