@@ -1,0 +1,139 @@
+/* ====================================
+   LEGAL PAGES – RealCoachDeepak
+   ==================================== */
+
+/* --- Base Reset --- */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #0a0a0a;
+  color: #eaeaea;
+  margin: 0;
+  padding: 0;
+  line-height: 1.8;
+}
+
+/* --- Container --- */
+.legal-container {
+  max-width: 900px;
+  margin: 100px auto 80px;
+  padding: 40px 20px;
+  background: #121212;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.05);
+}
+
+/* --- Headings --- */
+.legal-container h1,
+.legal-container h2 {
+  color: var(--gold, #d4af37);
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.legal-container h3 {
+  color: #fff;
+  margin-top: 30px;
+  font-size: 1.3rem;
+}
+
+/* --- Text --- */
+.legal-container p,
+.legal-container li {
+  color: #dcdcdc;
+  font-size: 1.05rem;
+}
+
+.legal-container ul {
+  list-style: disc;
+  margin-left: 25px;
+}
+
+/* --- Footer (inherits from site style but adjusted for standalone) --- */
+footer {
+  background: #000;
+  color: #ccc;
+  text-align: center;
+  padding: 40px 15px;
+  border-top: 1px solid #111;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 22px;
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--gold, #d4af37);
+}
+
+/* Social icons */
+.footer-social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin: 15px 0 5px;
+}
+
+.footer-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.footer-social a img {
+  width: 30px;
+  height: 30px;
+  filter: brightness(0) invert(1);
+  transition: all 0.3s ease;
+}
+
+.footer-social a img:hover {
+  filter: invert(69%) sepia(90%) saturate(466%) hue-rotate(17deg) brightness(98%) contrast(92%);
+  transform: scale(1.1);
+}
+
+.footer-copy {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-top: 12px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .legal-container {
+    padding: 30px 15px;
+    margin: 80px 10px;
+  }
+
+  .legal-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-social {
+    gap: 28px;
+  }
+
+  .footer-social a img {
+    width: 26px;
+  }
+}
