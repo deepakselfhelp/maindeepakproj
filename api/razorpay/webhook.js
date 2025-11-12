@@ -18,9 +18,9 @@ export default async function handler(req, res) {
 
     // ---------- Helper Functions ---------- //
 
-    function escapeMarkdownV2(text) {
-      return text.replace(/([_*\[\]()~`>#+\\-=|{}.!\\])/g, "\\$1");
-    }
+  function escapeMarkdownV2(text) {
+  return text.replace(/([_*\[\]()~`>#+=|{}.!\\-])/g, '\\$1');
+}
 
     async function sendTelegramMessage(text) {
       const botToken = process.env.TELEGRAM_BOT_TOKEN;
