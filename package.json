@@ -2,6 +2,7 @@
   "name": "maindeepakproj",
   "version": "1.0.0",
   "description": "RealCoachDeepak main project with Mollie and Razorpay integration",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "vercel dev",
