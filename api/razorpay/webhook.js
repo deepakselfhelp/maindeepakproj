@@ -12,17 +12,18 @@ export default async function handler(req, res) {
     const subscription = body.payload?.subscription?.entity;
 
     console.log(`📬 Received Razorpay Event: ${event}`);
+
     // 🗂️ Map internal Razorpay plan IDs to user-friendly names
-const PLAN_NAME_MAP = {
-  "plan_RcO3xG88LCkMNo": "Hindi Pro Community 699",
-  "plan_RfBy2sLVRdY2VN": "Deepak Academy Monthly",
-  "plan_Example123": "Dating Mastery Premium",
-  // add more as needed
-};
+    const PLAN_NAME_MAP = {
+      "plan_RcO3xG88LCkMNo": "Hindi Pro Community 699",
+      "plan_RfBy2sLVRdY2VN": "Deepak Academy Monthly",
+      "plan_Example123": "Dating Mastery Premium",
+      // add more as needed
+    };
 
     // Escape MarkdownV2 special characters (Telegram)
     function escapeMarkdownV2(text) {
-return text.replace(/([_*\[\]()~`>#+\\=\-|{}.!\\])/g, "\\$1");
+      return text.replace(/([_*\[\]()~`>#+\\=\-|{}.!\\])/g, "\\$1");
     }
 
     // ✅ Telegram message sender
@@ -93,23 +94,24 @@ return text.replace(/([_*\[\]()~`>#+\\=\-|{}.!\\])/g, "\\$1");
       );
     }
 
-   // 💰 1️⃣ Payment Captured
-if (event === "payment.captured" && payment) {
-  const amount = (payment.amount / 100).toFixed(2);
-  const currency = payment.currency || "INR";
-  const email = extractEmail(payment);
-  const name = payment.notes?.name || "Customer";
-  const planId =
-    payment.notes?.plan_id ||
-    payment.notes?.plan_name ||
-    payment.notes?.subscription_name ||
-    null;
+    // 💰 1️⃣ Payment Captured
+    if (event === "payment.captured" && payment) {
+      const amount = (payment.amount / 100).toFixed(2);
+      const currency = payment.currency || "INR";
+      const email = extractEmail(payment);
+      const name = payment.notes?.name || "Customer";
+      const planId =
+        payment.notes?.plan_id ||
+        payment.notes?.plan_name ||
+        payment.notes?.subscription_name ||
+        null;
 
-  // ✅ Use readable plan name if exists
-  const readablePlanName = PLAN_NAME_MAP[planId] || payment.notes?.product || "Subscription (via Razorpay Button)";
+      const readablePlanName =
+        PLAN_NAME_MAP[planId] ||
+        payment.notes?.product ||
+        "Subscription (via Razorpay Button)";
 
-  // 🟡 Telegram message
-  const tgMessage = escapeMarkdownV2(`
+      const tgMessage = escapeMarkdownV2(`
 🏦 *Source:* Razorpay
 💰 *New Payment Captured*
 📦 *Product:* ${readablePlanName}
@@ -117,10 +119,9 @@ if (event === "payment.captured" && payment) {
 💵 *Amount:* ${currency} ${amount}
 🆔 *Payment ID:* ${payment.id}
 `);
-  await sendTelegramMessage(tgMessage);
+      await sendTelegramMessage(tgMessage);
 
-  // 💌 Brevo email body
-  const emailBody = `
+      const emailBody = `
 🏦 Source: Razorpay
 💰 New Payment Captured
 📦 Product: ${readablePlanName}
@@ -135,22 +136,21 @@ Warm regards,
 Deepak Team  
 support@realcoachdeepak.com
 `;
-  await sendBrevoEmail(email, \`Payment Confirmation – \${readablePlanName}\`, emailBody);
-  console.log(\`✅ [Payment Captured] \${payment.id}\`);
-}
+      await sendBrevoEmail(email, `Payment Confirmation – ${readablePlanName}`, emailBody);
+      console.log(`✅ [Payment Captured] ${payment.id}`);
+    }
 
     // 🔁 2️⃣ Subscription Renewal Charged
-if (event === "subscription.charged" && subscription) {
-  // ✅ Use human-readable plan names
-  const planId = subscription.plan_id;
-  const readablePlanName = PLAN_NAME_MAP[planId] || planId;
+    if (event === "subscription.charged" && subscription) {
+      const planId = subscription.plan_id;
+      const readablePlanName = PLAN_NAME_MAP[planId] || planId;
 
-  const subId = subscription.id;
-  const totalCount = subscription.total_count || "∞";
-  const email = extractEmail(subscription);
-  const phone = extractPhone(subscription);
+      const subId = subscription.id;
+      const totalCount = subscription.total_count || "∞";
+      const email = extractEmail(subscription);
+      const phone = extractPhone(subscription);
 
-  const message = escapeMarkdownV2(`
+      const message = escapeMarkdownV2(`
 🏦 *Source:* Razorpay
 🔁 *Subscription Renewal Charged*
 📦 *Product:* ${readablePlanName}
@@ -159,11 +159,10 @@ if (event === "subscription.charged" && subscription) {
 🧾 *Subscription ID:* ${subId}
 💳 *Cycle Count:* ${totalCount}
 `);
-  await sendTelegramMessage(message);
-  console.log(`🔁 [Renewal] ${subId}`);
+      await sendTelegramMessage(message);
+      console.log(`🔁 [Renewal] ${subId}`);
 
-  // 💌 Email via Brevo
-  const emailBody = `
+      const emailBody = `
 🏦 Source: Razorpay
 🔁 Subscription Renewal Charged
 📦 Product: ${readablePlanName}
@@ -178,30 +177,28 @@ Warm regards,
 Deepak Team  
 support@realcoachdeepak.com
 `;
-  await sendBrevoEmail(email, \`Subscription Renewal – \${readablePlanName}\`, emailBody);
-}
+      await sendBrevoEmail(email, `Subscription Renewal – ${readablePlanName}`, emailBody);
+    }
 
-  // ⚠️ 3️⃣ Payment Failed
-if (event === "payment.failed" && payment) {
-  const amount = (payment.amount / 100).toFixed(2);
-  const currency = payment.currency || "INR";
-  const failReason = payment.error_description || "Unknown reason";
-  const email = extractEmail(payment);
-  const phone = extractPhone(payment);
+    // ⚠️ 3️⃣ Payment Failed
+    if (event === "payment.failed" && payment) {
+      const amount = (payment.amount / 100).toFixed(2);
+      const currency = payment.currency || "INR";
+      const failReason = payment.error_description || "Unknown reason";
+      const email = extractEmail(payment);
+      const phone = extractPhone(payment);
 
-  // ✅ Get plan name if available
-  const planId =
-    payment.notes?.plan_id ||
-    payment.notes?.plan_name ||
-    payment.notes?.subscription_name ||
-    null;
-  const readablePlanName =
-    PLAN_NAME_MAP[planId] ||
-    payment.notes?.product ||
-    "Razorpay Payment";
+      const planId =
+        payment.notes?.plan_id ||
+        payment.notes?.plan_name ||
+        payment.notes?.subscription_name ||
+        null;
+      const readablePlanName =
+        PLAN_NAME_MAP[planId] ||
+        payment.notes?.product ||
+        "Razorpay Payment";
 
-  // 🟡 Telegram message
-  const tgMessage = escapeMarkdownV2(`
+      const tgMessage = escapeMarkdownV2(`
 🏦 *Source:* Razorpay
 ⚠️ *Payment Failed*
 📦 *Product:* ${readablePlanName}
@@ -211,11 +208,10 @@ if (event === "payment.failed" && payment) {
 ❌ *Reason:* ${failReason}
 🆔 *Payment ID:* ${payment.id}
 `);
-  await sendTelegramMessage(tgMessage);
-  console.log(`⚠️ [Payment Failed] ${payment.id}`);
+      await sendTelegramMessage(tgMessage);
+      console.log(`⚠️ [Payment Failed] ${payment.id}`);
 
-  // 💌 Brevo Email
-  const emailBody = `
+      const emailBody = `
 🏦 Source: Razorpay
 ⚠️ Payment Failed
 📦 Product: ${readablePlanName}
@@ -231,28 +227,28 @@ Warm regards,
 Deepak Team  
 support@realcoachdeepak.com
 `;
-  await sendBrevoEmail(email, \`Payment Failed – \${readablePlanName}\`, emailBody);
-}
-// 🚫 4️⃣ Subscription Cancelled / Rebill Failed
-if (event === "subscription.cancelled" && subscription) {
-  const planId = subscription.plan_id;
-  const readablePlanName =
-    PLAN_NAME_MAP[planId] ||
-    subscription.notes?.product ||
-    "Razorpay Plan";
+      await sendBrevoEmail(email, `Payment Failed – ${readablePlanName}`, emailBody);
+    }
 
-  const subId = subscription.id;
-  const reason =
-    subscription.cancel_reason ||
-    "Cancelled manually or after failed rebills";
-  const failedRebill =
-    reason.includes("multiple failed rebill") ||
-    reason.includes("failed payment");
-  const email = extractEmail(subscription);
-  const phone = extractPhone(subscription);
+    // 🚫 4️⃣ Subscription Cancelled / Rebill Failed
+    if (event === "subscription.cancelled" && subscription) {
+      const planId = subscription.plan_id;
+      const readablePlanName =
+        PLAN_NAME_MAP[planId] ||
+        subscription.notes?.product ||
+        "Razorpay Plan";
 
-  // 🟡 Telegram Message
-  const message = escapeMarkdownV2(`
+      const subId = subscription.id;
+      const reason =
+        subscription.cancel_reason ||
+        "Cancelled manually or after failed rebills";
+      const failedRebill =
+        reason.includes("multiple failed rebill") ||
+        reason.includes("failed payment");
+      const email = extractEmail(subscription);
+      const phone = extractPhone(subscription);
+
+      const message = escapeMarkdownV2(`
 🏦 *Source:* Razorpay
 ${failedRebill ? "🚨 *Subscription Failed After Multiple Rebill Attempts!*" : "🚫 *Subscription Cancelled*"}
 📦 *Product:* ${readablePlanName}
@@ -261,11 +257,10 @@ ${failedRebill ? "🚨 *Subscription Failed After Multiple Rebill Attempts!*" : 
 🧾 *Subscription ID:* ${subId}
 ❌ *Reason:* ${reason}
 `);
-  await sendTelegramMessage(message);
-  console.log(`🚫 [Cancelled] ${subId}`);
+      await sendTelegramMessage(message);
+      console.log(`🚫 [Cancelled] ${subId}`);
 
-  // 💌 Brevo Email — detailed plain text version
-  const emailBody = `
+      const emailBody = `
 🏦 Source: Razorpay
 ${failedRebill ? "🚨 Subscription Failed After Multiple Rebill Attempts!" : "🚫 Subscription Cancelled"}
 📦 Product: ${readablePlanName}
@@ -281,12 +276,13 @@ Deepak Team
 support@realcoachdeepak.com
 `;
 
-  const subjectLine = failedRebill
-    ? `Subscription Failed (Rebill Attempts) – ${readablePlanName}`
-    : `Subscription Cancelled – ${readablePlanName}`;
+      const subjectLine = failedRebill
+        ? `Subscription Failed (Rebill Attempts) – ${readablePlanName}`
+        : `Subscription Cancelled – ${readablePlanName}`;
 
-  await sendBrevoEmail(email, subjectLine, emailBody);
-}
+      await sendBrevoEmail(email, subjectLine, emailBody);
+    }
+
     res.status(200).json({ status: "ok" });
   } catch (err) {
     console.error("❌ [Webhook Error]:", err);
