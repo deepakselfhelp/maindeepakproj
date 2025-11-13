@@ -21,6 +21,17 @@ export default async function handler(req, res) {
       // add more as needed
     };
 
+
+    
+    // 🗂️ Map Razorpay button IDs to product names (for one-time payments)
+  const BUTTON_ID_MAP = {
+  // Example: find your real button IDs in Razorpay → Payment Buttons
+  "pl_RfCnu3mYnC3FrA": "Deepak Infield Domination Monthly",
+  "pl_RcOmJ9ipDaPrjg": "Hindi Pro Community 699",
+  "pl_RxExample001": "Dating Mastery Premium",
+  // add more as needed
+};
+
     // Escape MarkdownV2 special characters (Telegram)
     function escapeMarkdownV2(text) {
       return text.replace(/([_*\[\]()~`>#+\\=\-|{}.!\\])/g, "\\$1");
@@ -94,24 +105,28 @@ export default async function handler(req, res) {
       );
     }
 
-    // 💰 1️⃣ Payment Captured
-    if (event === "payment.captured" && payment) {
-      const amount = (payment.amount / 100).toFixed(2);
-      const currency = payment.currency || "INR";
-      const email = extractEmail(payment);
-      const name = payment.notes?.name || "Customer";
-      const planId =
-        payment.notes?.plan_id ||
-        payment.notes?.plan_name ||
-        payment.notes?.subscription_name ||
-        null;
+// 💰 1️⃣ Payment Captured
+if (event === "payment.captured" && payment) {
+  const amount = (payment.amount / 100).toFixed(2);
+  const currency = payment.currency || "INR";
+  const email = extractEmail(payment);
+  const name = payment.notes?.name || "Customer";
+  const planId =
+    payment.notes?.plan_id ||
+    payment.notes?.plan_name ||
+    payment.notes?.subscription_name ||
+    null;
+  const buttonId = payment.notes?.button_id || payment.method || null;
 
-      const readablePlanName =
-        PLAN_NAME_MAP[planId] ||
-        payment.notes?.product ||
-        "Subscription (via Razorpay Button)";
+  // ✅ Use readable plan or button name if exists
+  const readablePlanName =
+    PLAN_NAME_MAP[planId] ||
+    BUTTON_ID_MAP[buttonId] ||
+    payment.notes?.product ||
+    "Deepak Course Purchase";
 
-      const tgMessage = escapeMarkdownV2(`
+  // 🟡 Telegram
+  const tgMessage = escapeMarkdownV2(`
 🏦 *Source:* Razorpay
 💰 *New Payment Captured*
 📦 *Product:* ${readablePlanName}
@@ -119,9 +134,10 @@ export default async function handler(req, res) {
 💵 *Amount:* ${currency} ${amount}
 🆔 *Payment ID:* ${payment.id}
 `);
-      await sendTelegramMessage(tgMessage);
+  await sendTelegramMessage(tgMessage);
 
-      const emailBody = `
+  // 💌 Brevo Email
+  const emailBody = `
 🏦 Source: Razorpay
 💰 New Payment Captured
 📦 Product: ${readablePlanName}
@@ -136,9 +152,9 @@ Warm regards,
 Deepak Team  
 support@realcoachdeepak.com
 `;
-      await sendBrevoEmail(email, `Payment Confirmation – ${readablePlanName}`, emailBody);
-      console.log(`✅ [Payment Captured] ${payment.id}`);
-    }
+  await sendBrevoEmail(email, `Payment Confirmation – ${readablePlanName}`, emailBody);
+  console.log(`✅ [Payment Captured] ${payment.id}`);
+}
 
     // 🔁 2️⃣ Subscription Renewal Charged
     if (event === "subscription.charged" && subscription) {
