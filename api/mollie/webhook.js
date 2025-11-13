@@ -12,15 +12,22 @@ export default async function handler(req, res) {
     const body = req.body;
     const paymentId = body.id || body.paymentId;
 	
-    // 🚧 Early duplicate protection using resource + id
-    const resourceType = body.resource || "payment";
-   const cacheKey = `${resourceType}-${paymentId}`;
+   // 🚧 Early duplicate protection (resource + id normalized)
+const resourceType = (body.resource || "payment").toLowerCase();
+const cacheKey = `${resourceType}-${paymentId}`;
 
-   if (processedPayments.has(cacheKey)) {
-  console.log(`⚠️ Duplicate Mollie ${resourceType} ignored for ${paymentId}`);
+// Mollie can send the same event twice with slightly different shapes,
+// so normalize the key again for payment/subscription overlap:
+const altKey = paymentId;
+
+if (processedPayments.has(cacheKey) || processedPayments.has(altKey)) {
+  console.log(`⚠️ Duplicate Mollie webhook ignored for ${cacheKey}`);
   return res.status(200).send("Duplicate ignored");
 }
-processedPayments.add(cacheKey); // ✅ mark processed immediately
+
+// Mark both identifiers as processed
+processedPayments.add(cacheKey);
+processedPayments.add(altKey);
 
     console.log("📬 Mollie webhook received:", paymentId);
 
