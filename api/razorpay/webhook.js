@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     // Escape MarkdownV2 special characters (Telegram)
     function escapeMarkdownV2(text) {
-      return text.replace(/([_*\[\]()~`>#+\\-=|{}.!\\])/g, '\\$1');
+return text.replace(/([_*\[\]()~`>#+\\=\-|{}.!\\])/g, "\\$1");
     }
 
     // ✅ Telegram message sender
