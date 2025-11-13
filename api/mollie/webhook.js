@@ -1,7 +1,7 @@
 // ✅ /api/mollie/webhook.js — Final Stable Version (Extended with Open/Expired/Fail Fix)
 const processedPayments = new Set();
 // Auto-clear cache every 60 s
-setInterval(() => processedPayments.clear(), 60000);
+setInterval(() => processedPayments.clear(), 120000);
 
 export default async function handler(req, res) {
   try {
@@ -217,7 +217,7 @@ Deepak Team
 support@realcoachdeepak.com
 `;
     await sendBrevoEmail(email, `Subscription Started – ${planType}`, subEmailBody);
-  } else {
+  } else if (!subscription.id && subscription.status !== "active") {
     await sendTelegram(
       `🚫 *SUBSCRIPTION CREATION FAILED*\n━━━━━━━━━━━━━━━\n🕒 *Time:* ${timeCET} (CET)\n📧 *Email:* ${email}\n👤 *Name:* ${name}\n🧾 *Customer ID:* ${customerId}`
     );
