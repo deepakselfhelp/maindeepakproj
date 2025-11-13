@@ -126,12 +126,14 @@ Admin copy for record — Sent to: ${to}
 
 // 💰 1️⃣ Initial Payment Success
 if (status === "paid" && sequence === "first") {
-  // 🧠 Avoid running twice for the same transaction
-  if (processedPayments.has(`initial-${payment.id}`)) {
+	const cacheKey = `initial-${payment.id}`;
+	
+   // 🚧 Store immediately (before doing anything async)
+  if (processedPayments.has(cacheKey)) {
     console.log(`⚠️ Duplicate Mollie initial payment ignored for ${payment.id}`);
     return res.status(200).send("Duplicate ignored");
   }
-  processedPayments.add(`initial-${payment.id}`);
+  processedPayments.add(cacheKey);   // ✅ store right now
 
   // 🔔 Telegram Notification
   await sendTelegram(
