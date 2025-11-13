@@ -151,6 +151,7 @@ support@realcoachdeepak.com
 `;
       await sendBrevoEmail(email, `Payment Confirmation – ${readablePlanName}`, emailBody);
       console.log(`✅ [Payment Captured] ${payment.id}`);
+      console.log("🧾 Payment Notes:", JSON.stringify(payment.notes, null, 2));
     }
 
     // 🌟 NEW — Subscription Activated
@@ -188,6 +189,7 @@ support@realcoachdeepak.com
 `;
       await sendBrevoEmail(email, `Subscription Activated – ${readablePlanName}`, emailBody);
       console.log(`✅ [Subscription Activated] ${subId}`);
+      
     }
 
     // 🔁 2️⃣ Subscription Renewal Charged
