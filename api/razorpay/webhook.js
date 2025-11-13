@@ -50,33 +50,48 @@ export default async function handler(req, res) {
       });
     }
 
-    // ✅ Brevo sender (plain text)
-    async function sendBrevoEmail(to, subject, text) {
-      try {
-        const apiKey = process.env.BREVO_API_KEY;
-        const senderEmail = "support@realcoachdeepak.com";
+   // ✅ Brevo sender (plain text with admin copy)
+async function sendBrevoEmail(to, subject, text) {
+  try {
+    const apiKey = process.env.BREVO_API_KEY;
+    const senderEmail = "support@realcoachdeepak.com";
+    const adminEmail = "deepakdating101@gmail.com"; // 👈 Admin copy address
 
-        const res = await fetch("https://api.brevo.com/v3/smtp/email", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "api-key": apiKey,
-          },
-          body: JSON.stringify({
-            sender: { name: "Deepak Team", email: senderEmail },
-            to: [{ email: to }],
-            subject,
-            htmlContent: text.replace(/\n/g, "<br>"),
-          }),
-        });
+    // 🔹 1. Build recipients array
+    const recipients = [{ email: to }];
+    if (to !== adminEmail) recipients.push({ email: adminEmail }); 
+    // (prevents loop if admin ever receives system-triggered email)
 
-        const data = await res.json();
-        console.log("📧 Brevo email response:", data);
-      } catch (err) {
-        console.error("❌ Brevo email error:", err);
-      }
-    }
+    // 🔹 2. Add admin footer (helps search by customer email)
+    const htmlContent = `
+${text.replace(/\n/g, "<br>")}
+<hr style="margin-top:20px;border:0;border-top:1px solid #ccc;">
+<p style="font-size:13px;color:#555;">
+Admin copy for record — Sent to: ${to}
+</p>`;
 
+    // 🔹 3. Send to Brevo API
+    const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "api-key": apiKey,
+      },
+      body: JSON.stringify({
+        sender: { name: "Deepak Team", email: senderEmail },
+        to: recipients, // ✅ both customer + admin
+        subject,
+        htmlContent,
+      }),
+    });
+
+    // 🔹 4. Log Brevo response
+    const data = await res.json();
+    console.log("📧 Brevo email response:", data);
+  } catch (err) {
+    console.error("❌ Brevo email error:", err);
+  }
+}
     // Helpers
     function extractEmail(obj) {
       return (
