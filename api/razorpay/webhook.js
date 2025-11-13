@@ -233,7 +233,7 @@ support@realcoachdeepak.com
 `;
   await sendBrevoEmail(email, \`Payment Failed – \${readablePlanName}\`, emailBody);
 }
-  // 🚫 4️⃣ Subscription Cancelled / Rebill Failed
+// 🚫 4️⃣ Subscription Cancelled / Rebill Failed
 if (event === "subscription.cancelled" && subscription) {
   const planId = subscription.plan_id;
   const readablePlanName =
@@ -280,9 +280,13 @@ Best regards,
 Deepak Team  
 support@realcoachdeepak.com
 `;
-  await sendBrevoEmail(email, \`Subscription Cancelled – \${readablePlanName}\`, emailBody);
-}
 
+  const subjectLine = failedRebill
+    ? `Subscription Failed (Rebill Attempts) – ${readablePlanName}`
+    : `Subscription Cancelled – ${readablePlanName}`;
+
+  await sendBrevoEmail(email, subjectLine, emailBody);
+}
     res.status(200).json({ status: "ok" });
   } catch (err) {
     console.error("❌ [Webhook Error]:", err);
