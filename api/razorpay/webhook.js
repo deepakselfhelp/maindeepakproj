@@ -1,4 +1,4 @@
-// ✅ Final Razorpay Webhook (Telegram + Brevo Email integration, no logic changed)
+// ✅ Final Razorpay Webhook (shows Email + Phone in all Telegram messages)
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     // Escape MarkdownV2 special characters
     function escapeMarkdownV2(text) {
-      return text.replace(/([_*\[\]()~`>#+\\-=|{}.!\\])/g, '\\$1');
+      return text.replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
     }
 
     // Send Telegram message
@@ -33,30 +33,6 @@ export default async function handler(req, res) {
           parse_mode: "MarkdownV2",
         }),
       });
-    }
-
-    // ✅ Brevo email sender
-    async function sendBrevoEmail(to, subject, html) {
-      try {
-        const res = await fetch("https://api.brevo.com/v3/smtp/email", {
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "api-key": process.env.BREVO_API_KEY,
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            sender: { name: "RealCoachDeepak", email: "team@realcoachdeepak.com" },
-            to: [{ email: to }],
-            subject,
-            htmlContent: html,
-          }),
-        });
-        const data = await res.json();
-        console.log("📧 Brevo email sent:", data);
-      } catch (error) {
-        console.error("❌ Brevo email error:", error);
-      }
     }
 
     // Helper to extract email and phone (works for all events)
@@ -106,17 +82,6 @@ export default async function handler(req, res) {
 `);
       await sendTelegramMessage(message);
       console.log(`✅ [Payment Captured] ${payment.id}`);
-
-      if (email && email !== "N/A") {
-        await sendBrevoEmail(
-          email,
-          `✅ Payment Received - ${product}`,
-          `<h3>Payment Successful!</h3>
-           <p>We’ve received your payment of <b>${currency} ${amount}</b> for <b>${product}</b>.</p>
-           <p>Your subscription is now active. Welcome to <b>Deepak Brotherhood</b>!</p>
-           <br><p>If you need any help, contact <a href="mailto:deepakdate101@gmail.com">deepakdate101@gmail.com</a>.</p>`
-        );
-      }
     }
 
     // 🔁 2️⃣ Subscription Renewal Charged
@@ -141,15 +106,6 @@ export default async function handler(req, res) {
 `);
       await sendTelegramMessage(message);
       console.log(`🔁 [Renewal] ${subId}`);
-
-      if (email && email !== "N/A") {
-        await sendBrevoEmail(
-          email,
-          `🔁 Subscription Renewed - ${planName}`,
-          `<p>Your subscription for <b>${planName}</b> has been renewed successfully.</p>
-           <p>Thank you for staying with <b>Deepak Brotherhood</b>.</p>`
-        );
-      }
     }
 
     // ⚠️ 3️⃣ Payment Failed
@@ -171,16 +127,6 @@ export default async function handler(req, res) {
 `);
       await sendTelegramMessage(message);
       console.log(`⚠️ [Payment Failed] ${payment.id}`);
-
-      if (email && email !== "N/A") {
-        await sendBrevoEmail(
-          email,
-          `⚠️ Payment Failed`,
-          `<p>Your payment of <b>${currency} ${amount}</b> could not be processed.</p>
-           <p>Reason: <b>${failReason}</b></p>
-           <p>Please retry or contact support if the issue persists.</p>`
-        );
-      }
     }
 
     // 🚫 4️⃣ Subscription Cancelled / Rebill Failed
@@ -190,9 +136,7 @@ export default async function handler(req, res) {
         subscription.plan_id ||
         "Razorpay Plan";
       const subId = subscription.id;
-      const reason =
-        subscription.cancel_reason ||
-        "Cancelled manually or after failed rebills";
+      const reason = subscription.cancel_reason || "Cancelled manually or after failed rebills";
       const failedRebill =
         reason.includes("multiple failed rebill") || reason.includes("failed payment");
       const email = extractEmail(subscription);
@@ -200,9 +144,7 @@ export default async function handler(req, res) {
 
       const message = escapeMarkdownV2(`
 🏦 *Source:* Razorpay
-${failedRebill
-  ? "🚨 *Subscription Failed After Multiple Rebill Attempts!*"
-  : "🚫 *Subscription Cancelled*"}
+${failedRebill ? "🚨 *Subscription Failed After Multiple Rebill Attempts!*" : "🚫 *Subscription Cancelled*"}
 📦 *Product:* ${planName}
 📧 *Email:* ${email}
 📱 *Phone:* ${phone}
@@ -211,16 +153,6 @@ ${failedRebill
 `);
       await sendTelegramMessage(message);
       console.log(`🚫 [Cancelled] ${subId}`);
-
-      if (email && email !== "N/A") {
-        await sendBrevoEmail(
-          email,
-          `🚫 Subscription Cancelled - ${planName}`,
-          `<p>Your subscription <b>${planName}</b> has been cancelled.</p>
-           <p>Reason: ${reason}</p>
-           <p>You can rejoin anytime at <a href="https://realcoachdeepak.com">realcoachdeepak.com</a>.</p>`
-        );
-      }
     }
 
     res.status(200).json({ status: "ok" });
