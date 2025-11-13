@@ -22,14 +22,6 @@ export default async function handler(req, res) {
 }
 processedPayments.add(cacheKey); // ✅ mark processed immediately
 
-
-    // 🧠 Duplicate protection
-    if (processedPayments.has(paymentId)) {
-      console.log(`⚠️ Duplicate webhook ignored for ${paymentId}`);
-      return res.status(200).send("Duplicate ignored");
-    }
-    processedPayments.add(paymentId);
-
     console.log("📬 Mollie webhook received:", paymentId);
 
     // 🕒 CET time
@@ -137,14 +129,6 @@ Admin copy for record — Sent to: ${to}
 
 // 💰 1️⃣ Initial Payment Success
 if (status === "paid" && sequence === "first") {
-	const cacheKey = `initial-${payment.id}`;
-	
-   // 🚧 Store immediately (before doing anything async)
-  if (processedPayments.has(cacheKey)) {
-    console.log(`⚠️ Duplicate Mollie initial payment ignored for ${payment.id}`);
-    return res.status(200).send("Duplicate ignored");
-  }
-  processedPayments.add(cacheKey);   // ✅ store right now
 
   // 🔔 Telegram Notification
   await sendTelegram(
