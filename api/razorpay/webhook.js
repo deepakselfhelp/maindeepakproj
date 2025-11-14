@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     processedRazorpayEvents.add(eventKey);
 
     // ⚡ Immediate acknowledgment (prevents Razorpay retries)
-    res.status(200).send("OK");
+    //res.status(200).send("OK");
 
     // Continue processing asynchronously
     console.log("✅ Razorpay webhook acknowledged — processing async now...");
