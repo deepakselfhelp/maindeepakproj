@@ -1,58 +1,67 @@
-// ✅ /api/mollie/create-subscription.js
 export default async function handler(req, res) {
   try {
+    const { email, subscriptionId, adminPassword } = req.body;
+
+    const ADMIN_PASS = process.env.ADMIN_PASSWORD;
     const MOLLIE_KEY = process.env.MOLLIE_SECRET_KEY;
-    const { name, email } = req.body;
 
-    if (!name || !email) {
-      return res.status(400).json({ error: "Missing name or email" });
+    if (adminPassword !== ADMIN_PASS) {
+      return res.status(403).json({ error: "Invalid admin password" });
     }
 
-    // 1️⃣ Create customer
-    const customerRes = await fetch("https://api.mollie.com/v2/customers", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${MOLLIE_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email }),
+    if (!email || !subscriptionId) {
+      return res.status(400).json({ error: "Missing fields" });
+    }
+
+    // 1️⃣ Get subscription details
+    const subRes = await fetch(
+      `https://api.mollie.com/v2/subscriptions/${subscriptionId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${MOLLIE_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const sub = await subRes.json();
+
+    if (!sub.id) {
+      return res.status(404).json({ error: "Subscription not found" });
+    }
+
+    const customerId = sub.customerId;
+
+    // 2️⃣ Cancel subscription
+    const cancelRes = await fetch(
+      `https://api.mollie.com/v2/customers/${customerId}/subscriptions/${subscriptionId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${MOLLIE_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    // If Mollie accepts cancellation: success
+    if (cancelRes.status === 204) {
+      return res.status(200).json({
+        message: "Subscription cancellation request accepted",
+      });
+    }
+
+    // Error fallback
+    const errJson = await cancelRes.json();
+    console.log("❌ Mollie Cancel Error:", errJson);
+
+    return res.status(400).json({
+      error: "Cancellation failed",
+      details: errJson,
     });
 
-    const customer = await customerRes.json();
-    if (!customer.id) {
-      console.error("❌ Mollie customer error:", customer);
-      return res.status(400).json({ error: "Customer creation failed" });
-    }
-
-    // 2️⃣ Create initial payment (to confirm mandate)
-    const paymentRes = await fetch("https://api.mollie.com/v2/payments", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${MOLLIE_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: { value: "29.00", currency: "EUR" },
-        description: "Deepak Academy Monthly Membership",
-        redirectUrl: "https://realcoachdeepak.com/success.html",
-        webhookUrl: "https://realcoachdeepak.com/api/mollie/webhook",
-        customerId: customer.id,
-        sequenceType: "first", // marks it as first payment for mandate
-        metadata: { name, email, planType: "DID Main Subscription" },
-      }),
-    });
-
-    const payment = await paymentRes.json();
-
-    if (!payment?._links?.checkout?.href) {
-      console.error("❌ Mollie payment error:", payment);
-      return res.status(400).json({ error: "Payment creation failed" });
-    }
-
-    // 3️⃣ Return checkout URL to frontend
-    res.status(200).json({ checkoutUrl: payment._links.checkout.href });
   } catch (err) {
-    console.error("❌ create-subscription error:", err);
-    res.status(500).json({ error: "Internal server error" });
+    console.error("❌ Cancel Subscription API Error:", err);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }
