@@ -2,7 +2,7 @@ export default async function handler(req, res) {
   try {
     const { email, subscriptionId, adminPassword } = req.body;
 
-    const ADMIN_PASS = process.env.ADMIN_PASSWORD;
+    const ADMIN_PASS = process.env.ADMIN_CANCEL_PASSWORD;
     const MOLLIE_KEY = process.env.MOLLIE_SECRET_KEY;
 
     if (adminPassword !== ADMIN_PASS) {
