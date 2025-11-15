@@ -1,95 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Admin | Cancel Subscription</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cancel Subscription</title>
   <style>
     body {
-      font-family: Arial;
-      max-width: 400px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #0a0a0a;
-      color: #fff;
-      border: 1px solid #333;
-      border-radius: 10px;
-    }
-
-    input, button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      font-size: 16px;
-      border-radius: 6px;
-      border: none;
+      background:#0a0a0a;
+      color:white;
+      font-family: 'Poppins', sans-serif;
+      text-align:center;
+      padding:40px 20px;
     }
 
     input {
-      background: #1a1a1a;
-      color: #fff;
+      padding:12px;
+      width:300px;
+      border:none;
+      border-radius:6px;
+      margin:10px auto;
+      font-size:16px;
+      display:block;
     }
 
     button {
-      background: #f5b800;
-      color: #000;
-      cursor: pointer;
-      font-weight: 600;
+      background:#f5b800;
+      color:#000;
+      padding:12px 25px;
+      border:none;
+      border-radius:6px;
+      font-weight:600;
+      cursor:pointer;
+      margin-top:15px;
     }
 
-    button:hover {
-      background: #ffcc33;
+    .box {
+      background:#111;
+      padding:25px;
+      border-radius:10px;
+      border:1px solid #333;
+      max-width:420px;
+      margin:0 auto;
     }
 
-    #result {
-      margin-top: 20px;
-      font-size: 16px;
+    .success {
+      color:#00ff99;
+      margin-top:20px;
+      font-size:18px;
+    }
+
+    .error {
+      color:#ff4444;
+      margin-top:20px;
+      font-size:18px;
     }
   </style>
 </head>
 <body>
 
-<h2>🛑 Cancel Subscription (Admin Only)</h2>
+<h1>Cancel Your Subscription</h1>
 
-<form id="cancelForm">
-  <label>Admin Password</label>
-  <input type="password" id="password" placeholder="Enter admin password" required>
+<div class="box">
+  <p>Enter your details below to cancel your subscription.</p>
 
-  <label>Customer ID</label>
-  <input type="text" id="customerId" placeholder="cst_xxxxx" required>
+  <input id="email" type="email" placeholder="Your Email" />
+  <input id="subscriptionId" type="text" placeholder="Subscription ID" />
+  <input id="adminPassword" type="password" placeholder="Admin Password" />
 
-  <label>Subscription ID</label>
-  <input type="text" id="subscriptionId" placeholder="sub_xxxxx" required>
+  <button id="cancelBtn">Cancel Subscription</button>
 
-  <button type="submit">Cancel Subscription</button>
-</form>
-
-<p id="result"></p>
+  <div id="response"></div>
+</div>
 
 <script>
-document.getElementById("cancelForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const password = document.getElementById("password").value;
-  const customerId = document.getElementById("customerId").value.trim();
+document.getElementById("cancelBtn").addEventListener("click", async () => {
+  const email = document.getElementById("email").value.trim();
   const subscriptionId = document.getElementById("subscriptionId").value.trim();
-  const result = document.getElementById("result");
+  const adminPassword = document.getElementById("adminPassword").value.trim();
+  const responseBox = document.getElementById("response");
 
-  result.textContent = "Processing...";
-  result.style.color = "yellow";
+  if (!email || !subscriptionId || !adminPassword) {
+    responseBox.innerHTML = "<p class='error'>⚠️ All fields required</p>";
+    return;
+  }
 
-  const res = await fetch("/api/mollie/cancel-subscription", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ customerId, subscriptionId, password })
-  });
+  try {
+    const res = await fetch("/api/mollie/cancel-subscription", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, subscriptionId, adminPassword })
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (data.success) {
-    result.innerHTML = "✅ <strong>Subscription cancelled successfully.</strong><br>Your webhook will now send Telegram + email.";
-    result.style.color = "lightgreen";
-  } else {
-    result.textContent = "❌ Error: " + (data.error || "Unknown error");
-    result.style.color = "red";
+    if (res.status === 200) {
+      responseBox.innerHTML =
+        "<p class='success'>✅ Cancellation request accepted.<br>It may take a few seconds to update in your dashboard.</p>";
+    } else {
+      responseBox.innerHTML = `<p class="error">❌ ${data.error}</p>`;
+    }
+  } catch (err) {
+    responseBox.innerHTML = "<p class='error'>❌ Network error. Try again.</p>";
   }
 });
 </script>
