@@ -6,6 +6,8 @@ export default async function handler(req, res) {
     }
 
     const { customerId, subscriptionId, password } = req.body;
+    console.log("Password received:", password);
+console.log("Correct admin password:", ADMIN_PASSWORD);
 
     const MOLLIE_KEY = process.env.MOLLIE_SECRET_KEY;
     const ADMIN_PASSWORD = process.env.ADMIN_CANCEL_PASSWORD; // 👈 Add this in Vercel
