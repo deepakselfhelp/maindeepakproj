@@ -5,12 +5,12 @@ export default async function handler(req, res) {
       return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const { customerId, subscriptionId, password } = req.body;
-    console.log("Password received:", password);
-console.log("Correct admin password:", ADMIN_PASSWORD);
-
+    // 🔧 ALWAYS define environment variables at the top
     const MOLLIE_KEY = process.env.MOLLIE_SECRET_KEY;
-    const ADMIN_PASSWORD = process.env.ADMIN_CANCEL_PASSWORD; // 👈 Add this in Vercel
+    const ADMIN_PASSWORD = process.env.ADMIN_CANCEL_PASSWORD;
+
+    // Now extract request body
+    const { customerId, subscriptionId, password } = req.body;
 
     // 🔒 Password validation
     if (!password || password !== ADMIN_PASSWORD) {
@@ -24,7 +24,7 @@ console.log("Correct admin password:", ADMIN_PASSWORD);
       });
     }
 
-    // 🔥 Cancel subscription through Mollie
+    // 🔥 Cancel subscription via Mollie
     const cancelRes = await fetch(
       `https://api.mollie.com/v2/customers/${customerId}/subscriptions/${subscriptionId}`,
       {
@@ -36,14 +36,13 @@ console.log("Correct admin password:", ADMIN_PASSWORD);
     );
 
     if (cancelRes.status === 204) {
-      // Success — webhook will fire automatically
       return res.status(200).json({
         success: true,
         message: "Subscription cancelled successfully",
       });
     }
 
-    // Something went wrong → show error message
+    // Get error details
     let errorDetails = {};
     try {
       errorDetails = await cancelRes.json();
