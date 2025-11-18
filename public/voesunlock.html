@@ -90,13 +90,78 @@
 
     a { color: #f5b800; text-decoration: none; }
 
+   /* ---------- Enhanced Mobile Layout Fix ---------- */
     @media (max-width: 768px) {
-      .container { flex-direction: column; align-items: center; text-align: center; padding: 20px; }
-      .right { order: 1; width: 100%; margin-top: 0; }
-      .left { order: 2; width: 100%; }
-      .checkout-box { width: 95%; margin: 0 auto 25px; }
-      .hero { width: 95%; max-width: 400px; margin: 20px auto; }
-      ul { text-align: left; display: inline-block; }
+      .container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .right {
+        order: 1;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .checkout-box {
+        width: 94%;
+        margin: 0 auto 25px;
+        box-sizing: border-box;
+        text-align: center;
+      }
+
+      .checkout-box form {
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .checkout-box input[type="text"],
+      .checkout-box input[type="email"] {
+        width: 90%;
+        max-width: 350px;
+        margin: 10px auto;
+        display: block;
+      }
+
+      .checkout-box button {
+        width: 90%;
+        max-width: 350px;
+        margin: 12px auto 0;
+        display: block;
+      }
+
+      .hero {
+        width: 94%;
+        max-width: 380px;
+        margin: 25px auto;
+        transform: none;
+        display: block;
+      }
+
+      .testimonials { text-align: center; }
+      .testimonials img {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+
+      footer, footer div, footer p {
+        text-align: center !important;
+        justify-content: center !important;
+      }
+
+      footer {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
     }
   </style>
 </head>
