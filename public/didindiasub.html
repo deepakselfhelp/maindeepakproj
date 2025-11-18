@@ -98,42 +98,83 @@ i<!DOCTYPE html>
       text-decoration: none;
     }
 
-    /* ---------- Mobile Layout Fix ---------- */
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 20px;
-      }
+  /* ---------- Enhanced Mobile Layout Fix ---------- */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
 
-      /* ✅ Show RIGHT side (payment box) first on mobile */
-      .right {
-        order: 1;
-        width: 100%;
-      }
+  /* ✅ Show checkout first */
+  .right {
+    order: 1;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px; /* less top space */
+  }
 
-      .left {
-        order: 2;
-        width: 100%;
-      }
+  .checkout-box {
+    width: 94%;
+    margin: 0 auto 25px;
+    box-sizing: border-box;
+  }
 
-      .checkout-box {
-        width: 95%;
-        margin: 0 auto 25px;
-      }
+  /* ✅ Center hero image and fix offset */
+  .hero {
+    width: 94%;
+    max-width: 380px;
+    margin: 25px auto;
+    transform: none; /* remove translateX that pushes left */
+    display: block;
+  }
 
-      .hero {
-        width: 95%;
-        max-width: 400px;
-        margin: 20px auto;
-      }
+  /* ✅ Center testimonials */
+  .testimonials {
+    text-align: center;
+  }
+  .testimonials img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
 
-      ul {
-        text-align: left;
-        display: inline-block;
-      }
-    }
+  /* ✅ Ensure footer center alignment */
+  footer, footer div, footer p {
+    text-align: center !important;
+    justify-content: center !important;
+  }
+
+  /* ✅ Optional: slight padding tweak for balance */
+  footer {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+	/* Center the Razorpay iframe */
+   .checkout-box form {
+    width: 100%;
+    text-align: center !important;
+    display: flex;
+    justify-content: center;
+  }
+
+  .checkout-box iframe {
+    display: block !important;
+    margin: 0 auto !important;
+    width: auto !important;
+    max-width: 100% !important;
+    transform: none !important;
+  }
+
+  /* Prevent Razorpay script container from shifting */
+  .checkout-box script {
+    display: block !important;
+    margin: 0 auto !important;
+  }
+}
   </style>
 </head>
 <body>
