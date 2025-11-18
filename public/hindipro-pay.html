@@ -154,14 +154,25 @@
   }
 
 	/* Center the Razorpay iframe */
-  .checkout-box iframe {
-    display: block;
-    margin: 0 auto !important;
+   .checkout-box form {
+    width: 100%;
+    text-align: center !important;
+    display: flex;
+    justify-content: center;
   }
 
-  /* Optional: ensure script container centers correctly */
-  .checkout-box form {
-    text-align: center;
+  .checkout-box iframe {
+    display: block !important;
+    margin: 0 auto !important;
+    width: auto !important;
+    max-width: 100% !important;
+    transform: none !important;
+  }
+
+  /* Prevent Razorpay script container from shifting */
+  .checkout-box script {
+    display: block !important;
+    margin: 0 auto !important;
   }
 }
 
