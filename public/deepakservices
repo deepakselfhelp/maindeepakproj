@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join Dating Infields Domination</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0a0a0a;
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      gap: 30px;
+    }
+
+    .left { flex: 1 1 55%; box-sizing: border-box; }
+    .right {
+      flex: 1 1 40%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 140px;
+    }
+
+    h1 { font-size: 32px; color: #f5b800; margin-bottom: 10px; }
+    h2 { color: #f5b800; margin-top: 0; }
+    p { line-height: 1.6; margin-bottom: 20px; }
+
+    ul { list-style: none; padding: 0; margin: 0 0 20px 0; }
+    ul li::before { content: "✅ "; color: #f5b800; }
+
+    .hero {
+      display: block;
+      margin: 30px auto;
+      width: 85%;
+      max-width: 650px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(245,184,0,0.25);
+	  transform: translateX(-20px);
+    }
+
+    .checkout-box {
+      background: #111;
+      border: 2px solid #f5b800;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(245,184,0,0.25);
+      margin-top: 20px;
+    }
+
+    input {
+      width: 100%;
+      max-width: 320px;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    input.error { border: 2px solid red; background-color: #220000; }
+
+    button {
+      background-color: #f5b800;
+      color: #000;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 25px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+    button:hover { background-color: #ffcc33; }
+
+    footer { text-align: center; font-size: 13px; color: #aaa; margin: 40px 0 10px; }
+
+    a { color: #f5b800; text-decoration: none; }
+
+  /* ---------- Enhanced Mobile Layout Fix ---------- */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .right {
+        order: 1;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .checkout-box {
+        width: 94%;
+        margin: 0 auto 25px;
+        box-sizing: border-box;
+        text-align: center;
+      }
+
+      .checkout-box form {
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .checkout-box input[type="text"],
+      .checkout-box input[type="email"] {
+        width: 90%;
+        max-width: 350px;
+        margin: 10px auto;
+        display: block;
+      }
+
+      .checkout-box button {
+        width: 90%;
+        max-width: 350px;
+        margin: 12px auto 0;
+        display: block;
+      }
+
+      .hero {
+        width: 94%;
+        max-width: 380px;
+        margin: 25px auto;
+        transform: none;
+        display: block;
+      }
+
+      .testimonials { text-align: center; }
+      .testimonials img {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+
+      footer, footer div, footer p {
+        text-align: center !important;
+        justify-content: center !important;
+      }
+
+      footer {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Logo -->
+<div class="logo-container" style="text-align:center; padding:30px 0 10px;">
+  <img src="assets/img/logo.png" alt="Deepak Logo"
+       style="width:100%; max-width:700px; filter: drop-shadow(0 0 8px rgba(245,184,0,0.4));">
+</div>
+
+<div class="container">
+  <!-- RIGHT SIDE (CHECKOUT) -->
+  <div class="right">
+    <div class="checkout-box">
+      <h2>💳 Subscribe Securely</h2>
+      <p>
+        <strong>Enter your details</strong> to start your monthly membership.<br><br>
+        <span style="font-size:14px; color:#ccc;">
+          💡 Please use the <strong>same email</strong> as your community login for quick activation.
+        </span>
+      </p>
+
+      <input id="name" type="text" placeholder="Full Name" />
+      <input id="email" type="email" placeholder="Email (required)" required />
+      <button id="subscribeBtn">Start €29 Subscription</button>
+
+      <p style="color:#aaa; font-size:13px; margin-top:12px;">Secure checkout powered by Mollie.</p>
+    </div>
+  </div>
+
+  <!-- LEFT SIDE -->
+  <div class="left">
+    <h1>🔥 Join NOW Dating Infields Domination 🔥</h1>
+    <p>Get the Dating Product Of This Century and learn the game by real life infields and take your dating life the the next level</p>
+
+    <img src="assets/img/dating infields domination.png" alt="Hero" class="hero">
+
+    <ul>
+      <li>Access to premium video lessons</li>
+      <li>Access to infields</li>
+      <li>Access to infields breakdowns</li>
+      <li>Exclusive community access</li>
+    </ul>
+
+    <div class="testimonials">
+      <div class="testimonial">
+        <img src="assets/img/testimonial3.png" alt="Client 1" style="width:80px;height:80px;border-radius:50%;margin-bottom:10px;">
+        <p>“Deepak helped me rebuild my confidence completely.”</p>
+        <strong>— Amit, London</strong>
+      </div>
+      <div class="testimonial">
+        <img src="assets/img/testimonial2.png" alt="Client 2" style="width:80px;height:80px;border-radius:50%;margin-bottom:10px;">
+        <p>“I finally stopped overthinking and started living.”</p>
+        <strong>— Rohit, Delhi</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 🔔 Important Notice -->
+<div style="background:#111; color:#ccc; text-align:center; padding:25px 15px; margin-top:40px; border-top:1px solid #333;">
+  <p style="max-width:800px; margin:0 auto; line-height:1.6;">
+    <strong style="color:#f5b800;">Important Notice Before You Pay</strong><br>
+    This is a <em>cancelable</em> product. Payments already made are <strong>non-refundable</strong>.<br>
+    You can cancel anytime by emailing <strong>deepakdate101@gmail.com</strong>. After cancellation, future billings will stop.
+  </p>
+</div>
+
+<script>
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+const subscribeBtn = document.getElementById("subscribeBtn");
+
+// ✅ Email Regex — more robust (supports subdomains, long TLDs, etc.)
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+subscribeBtn.addEventListener("click", async () => {
+  const name = nameInput.value.trim();
+  const email = emailInput.value.trim().toLowerCase();
+
+  // Reset error state
+  nameInput.classList.remove("error");
+  emailInput.classList.remove("error");
+
+  let valid = true;
+
+  // ✅ Validate name
+  if (!name || name.length < 2) {
+    nameInput.classList.add("error");
+    valid = false;
+  }
+
+  // ✅ Validate email
+  if (!emailRegex.test(email)) {
+    emailInput.classList.add("error");
+    valid = false;
+  }
+
+  if (!valid) {
+    alert("⚠️ Please fill in all required fields correctly before continuing.");
+    return;
+  }
+
+  // ✅ Proceed with API call
+  try {
+    subscribeBtn.disabled = true;
+    subscribeBtn.textContent = "Processing...";
+
+    const res = await fetch("/api/mollie/create-initial-payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+  name,
+  email,
+  initialAmount: "29.00",
+  recurringAmount: "29.00",
+  planType: "DID Main Monthly"
+})
+    });
+
+    const data = await res.json();
+
+    if (data.checkoutUrl) {
+      window.location.href = data.checkoutUrl;
+    } else {
+      alert("❌ Error creating subscription. Please try again later.");
+      console.error(data);
+      subscribeBtn.disabled = false;
+      subscribeBtn.textContent = "Start €29 Subscription";
+    }
+  } catch (err) {
+    alert("🌐 Network error. Please try again.");
+    console.error(err);
+    subscribeBtn.disabled = false;
+    subscribeBtn.textContent = "Start €29 Subscription";
+  }
+});
+
+// ✅ Remove red border immediately when clicking into input
+[nameInput, emailInput].forEach(field => {
+  field.addEventListener("focus", () => {
+    field.classList.remove("error");
+  });
+});
+</script>
+
+
+<!-- ⚖️ Footer -->
+<footer style="background:#0a0a0a; color:#fff; text-align:center; font-size:14px; padding:25px 10px; border-top:1px solid #333;">
+  <div style="max-width:950px; margin:0 auto; display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
+    <a href="legal/terms-and-conditions.html" style="color:#fff; text-decoration:none;">Terms & Conditions</a><span>|</span>
+    <a href="legal/privacy-policy.html" style="color:#fff; text-decoration:none;">Privacy Policy</a><span>|</span>
+    <a href="legal/refund-policy.html" style="color:#fff; text-decoration:none;">Refund Policy</a><span>|</span>
+    <a href="legal/confidentiality-policy.html" style="color:#fff; text-decoration:none;">Confidentiality Policy</a><span>|</span>
+    <a href="legal/delivery-policy.html" style="color:#fff; text-decoration:none;">Delivery Policy</a><span>|</span>
+    <a href="legal/sitemap.html" style="color:#fff; text-decoration:none;">Sitemap</a><span>|</span>
+    <a href="legal/support.html" style="color:#fff; text-decoration:none;">Support</a><span>|</span>
+    <a href="legal/legal-notice.html" style="color:#fff; text-decoration:none;">Legal Notice</a>
+  </div>
+  <p style="margin-top:20px; font-size:12px; color:#ccc;">© Deepak 2025 — All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
