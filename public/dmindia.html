@@ -1,1 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join Dating Infields Domination</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0a0a0a;
+      color: #fff;
+    }
 
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      gap: 30px;
+    }
+
+    .left {
+      flex: 1 1 55%;
+      box-sizing: border-box;
+    }
+
+    .right {
+      flex: 1 1 40%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+	     margin-top: 140px;
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #f5b800;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: #f5b800;
+      margin-top: 0;
+    }
+
+    p {
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px 0;
+    }
+
+    ul li::before {
+      content: "✅ ";
+      color: #f5b800;
+    }
+
+    .hero {
+      display: block;
+      margin: 30px auto;
+      width: 85%;
+      max-width: 650px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(245,184,0,0.25);
+	  transform: translateX(-20px);
+    }
+
+    .checkout-box {
+      background: #111;
+      border: 2px solid #f5b800;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(245,184,0,0.25);
+      margin-top: 20px;
+      position: relative;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #aaa;
+      margin: 40px 0 10px;
+    }
+
+    a {
+      color: #f5b800;
+      text-decoration: none;
+    }
+
+  /* ---------- Enhanced Mobile Layout Fix ---------- */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  /* ✅ Show checkout first */
+  .right {
+    order: 1;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px; /* less top space */
+  }
+
+  .checkout-box {
+    width: 94%;
+    margin: 0 auto 25px;
+    box-sizing: border-box;
+  }
+
+  /* ✅ Center hero image and fix offset */
+  .hero {
+    width: 94%;
+    max-width: 380px;
+    margin: 25px auto;
+    transform: none; /* remove translateX that pushes left */
+    display: block;
+  }
+
+  /* ✅ Center testimonials */
+  .testimonials {
+    text-align: center;
+  }
+  .testimonials img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+  /* ✅ Ensure footer center alignment */
+  footer, footer div, footer p {
+    text-align: center !important;
+    justify-content: center !important;
+  }
+
+  /* ✅ Optional: slight padding tweak for balance */
+  footer {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+	/* Center the Razorpay iframe */
+   .checkout-box form {
+    width: 100%;
+    text-align: center !important;
+    display: flex;
+    justify-content: center;
+  }
+
+  .checkout-box iframe {
+    display: block !important;
+    margin: 0 auto !important;
+    width: auto !important;
+    max-width: 100% !important;
+    transform: none !important;
+  }
+
+  /* Prevent Razorpay script container from shifting */
+  .checkout-box script {
+    display: block !important;
+    margin: 0 auto !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+ <!-- Logo Section -->
+<div class="logo-container">
+  <img src="assets/img/logo.png" alt="Deepak Logo" class="logo">
+</div>
+
+<style>
+  .logo-container {
+    text-align: center;
+    padding: 30px 0 10px;
+    background: #0a0a0a;
+  }
+
+  .logo {
+    width: 100%;
+    max-width: 700px; /* limits size on desktop */
+    height: auto;
+    filter: drop-shadow(0 0 8px rgba(245,184,0,0.4));
+  }
+
+  /* Responsive logo adjustments */
+  @media (max-width: 1024px) {
+    .logo {
+      max-width: 500px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .logo {
+      max-width: 85%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo {
+      max-width: 90%;
+    }
+  }
+</style>
+
+  <div class="container">
+    <!-- RIGHT SIDE (CHECKOUT) -->
+    <div class="right">
+      <div class="checkout-box">
+        <h2>💳 Subscribe Securely</h2>
+        <p>
+          <strong>Select your plan</strong> and complete checkout below.<br><br>
+		  This payment page is only 4 <strong>Indian Paying Customers</strong>
+          <span style="font-size:14px; color:#ccc;">
+            💡 Please use the <strong>same email</strong> you use in the community.  
+            It helps us activate your Pro access faster.
+          </span>
+        </p>
+        <form>
+          <!-- 🔥 Replace this with your real test/live subscription button -->
+          <script
+            src="https://cdn.razorpay.com/static/widget/subscription-button.js"
+            data-subscription_button_id="pl_RmRldisuRkjVm2"
+            data-button_theme="brand-color"
+            async>
+          </script>
+        </form>
+      </div>
+    </div>
+
+    <!-- LEFT SIDE -->
+    <div class="left">
+      <h1>🔥 Join NOW Dating Infields Domination 🔥</h1>
+    <p>Get the Dating Product Of This Century and learn the game by real life infields and take your dating life the the next level</p>
+
+        <img src="assets/img/dating infields domination.png" alt="Hero" class="hero">
+
+    <ul>
+      <li>Access to premium video lessons</li>
+      <li>Access to infields</li>
+      <li>Access to infields breakdowns</li>
+      <li>Exclusive community access</li>
+    </ul>
+
+      <div class="testimonials">
+        <div class="testimonial">
+          <img src="assets/img/testimonial3.png" alt="Client 1" style="width:80px;height:80px;border-radius:50%;margin-bottom:10px;">
+          <p>“Deepak changed how I see social confidence forever.”</p>
+          <strong>— Amit, London</strong>
+        </div>
+        <div class="testimonial">
+          <img src="assets/img/testimonial2.png" alt="Client 2" style="width:80px;height:80px;border-radius:50%;margin-bottom:10px;">
+          <p>“The only coach who shows real proof and transformation.”</p>
+          <strong>— Rohit, Delhi</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <!-- 🔔 Important Notice -->
+<div style="background:#111; color:#ccc; text-align:center; padding:25px 15px; margin-top:40px; border-top:1px solid #333;">
+  <p style="max-width:800px; margin:0 auto; line-height:1.6;">
+    <strong style="color:#f5b800;">Important Notice Before You Pay</strong><br>
+    This is a <em>cancelable</em> product. Payments already made are <strong>non-refundable</strong>,
+    but you can cancel anytime by emailing <strong>deepakdate101@gmail.com</strong>.<br>
+    After cancellation, future billings will stop.
+  </p>
+</div>
+
+  <script>
+  // ✅ Wait until the Razorpay widget is ready
+  document.addEventListener("DOMContentLoaded", function () {
+    
+    // ✅ Detect payment success via postMessage from Razorpay iframe
+    window.addEventListener("message", function (event) {
+      if (event.data && typeof event.data === "string") {
+        // Successful payment (Razorpay sends payment_id and subscription_id)
+        if (event.data.includes("razorpay_payment_id")) {
+          console.log("✅ Payment success detected:", event.data);
+          window.location.href = "/success.html";
+        }
+
+        // Payment failure or closed without completion
+        if (event.data.includes("payment_failed") || event.data.includes("modal_closed")) {
+          console.log("❌ Payment cancelled or failed:", event.data);
+          window.location.href = "/failure.html";
+        }
+      }
+    });
+
+    // ✅ Extra fallback: detect if user closes Razorpay modal manually
+    const checkModalClosed = setInterval(() => {
+      const iframe = document.querySelector('iframe[src*="razorpay"]');
+      if (!iframe && window.Razorpay && window.Razorpay.__active) {
+        console.log("⚠️ Razorpay modal closed manually");
+        window.location.href = "/failure.html";
+        clearInterval(checkModalClosed);
+      }
+    }, 3000);
+  });
+</script>
+
+
+<!-- ⚖️ Footer -->
+<footer style="background:#0a0a0a; color:#fff; text-align:center; font-size:14px; padding:25px 10px; border-top:1px solid #333;">
+  <div style="max-width:950px; margin:0 auto; display:flex; flex-wrap:wrap; justify-content:center; gap:12px;">
+    <a href="legal/terms-and-conditions.html" style="color:#fff; text-decoration:none;">Terms & Conditions</a><span>|</span>
+    <a href="legal/privacy-policy.html" style="color:#fff; text-decoration:none;">Privacy Policy</a><span>|</span>
+    <a href="legal/refund-policy.html" style="color:#fff; text-decoration:none;">Refund Policy</a><span>|</span>
+    <a href="legal/confidentiality-policy.html" style="color:#fff; text-decoration:none;">Confidentiality Policy</a><span>|</span>
+    <a href="legal/delivery-policy.html" style="color:#fff; text-decoration:none;">Delivery Policy</a><span>|</span>
+    <a href="legal/sitemap.html" style="color:#fff; text-decoration:none;">Sitemap</a><span>|</span>
+    <a href="legal/support.html" style="color:#fff; text-decoration:none;">Support</a><span>|</span>
+    <a href="legal/legal-notice.html" style="color:#fff; text-decoration:none;">Legal Notice</a>
+  </div>
+  <p style="margin-top:20px; font-size:12px; color:#ccc;">© Deepak 2025 — All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
