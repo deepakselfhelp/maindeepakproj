@@ -51,12 +51,6 @@ processedPayments.add(altKey);
     payment.statusReason ||
     null;
 
-  if (failReason && (payment.status === "open" || payment.status === "failed")) {
-  await sendTelegram(
-    `⚠️ *PAYMENT FAILED (EARLY DETECTED)*\n━━━━━━━━━━━━━━━\n🕒 *Time:* ${timeCET} (CET)\n🏦 *Source:* Mollie\n📧 *Email:* ${email}\n👤 *Name:* ${name}\n📦 *Plan:* ${planType}\n💬 *Reason:* ${failReason}\n💵 *Amount:* ${currency} ${amount}\n🆔 *Payment ID:* ${payment.id}`
-  );
-}
-
     if (!payment || !payment.id) {
       console.error("❌ Invalid payment payload:", payment);
       return res.status(400).send("Bad request");
@@ -253,9 +247,16 @@ support@realcoachdeepak.com
 }
 
 
-  // 🔁 2️⃣ Renewal Paid
-else if (status === "paid" && sequence === "recurring") {
-  const msg = `🔁 *RENEWAL CHARGED*\n━━━━━━━━━━━━━━━\n🕒 *Time:* ${timeCET} (CET)\n📧 *Email:* ${email}\n📦 *Plan:* ${planType}\n💵 *Amount:* ${currency} ${amount}\n🧾 *Customer ID:* ${customerId}`;
+// 🔁 2️⃣ Renewal Paid
+else if (status === "paid" && payment.subscriptionId && sequence !== "first") {
+  const msg = `🔁 *RENEWAL CHARGED*\n━━━━━━━━━━━━━━━
+🕒 *Time:* ${timeCET} (CET)
+📧 *Email:* ${email}
+📦 *Plan:* ${planType}
+💵 *Amount:* ${currency} ${amount}
+🧾 *Customer ID:* ${customerId}
+📄 *Subscription ID:* ${payment.subscriptionId}`;
+
   await sendTelegram(msg);
 
   const emailBody = `
@@ -265,6 +266,7 @@ else if (status === "paid" && sequence === "recurring") {
 📦 Plan: ${planType}
 💵 Amount: ${currency} ${amount}
 🧾 Customer ID: ${customerId}
+📄 Subscription ID: ${payment.subscriptionId}
 🕒 Time: ${timeCET} (CET)
 
 Your recurring payment has been processed successfully.
@@ -274,12 +276,22 @@ Warm regards,
 Deepak Team
 support@realcoachdeepak.com
 `;
+
   await sendBrevoEmail(email, `Subscription Renewal – ${planType}`, emailBody);
 }
 
+
 // ⚠️ 3️⃣ Renewal Failed
-else if (status === "failed" && sequence === "recurring") {
-  const msg = `⚠️ *RENEWAL FAILED*\n━━━━━━━━━━━━━━━\n🕒 *Time:* ${timeCET} (CET)\n📧 *Email:* ${email}\n📦 *Plan:* ${planType}\n💵 *Amount:* ${currency} ${amount}\n🧾 *Customer ID:* ${customerId}`;
+else if ((status === "failed" || status === "canceled") && payment.subscriptionId) {
+  const msg = `⚠️ *RENEWAL FAILED*\n━━━━━━━━━━━━━━━
+🕒 *Time:* ${timeCET} (CET)
+📧 *Email:* ${email}
+📦 *Plan:* ${planType}
+💵 *Amount:* ${currency} ${amount}
+🧾 *Customer ID:* ${customerId}
+📄 *Subscription ID:* ${payment.subscriptionId}
+💬 *Reason:* ${failReason || "Unknown"}`;
+
   await sendTelegram(msg);
 
   const emailBody = `
@@ -289,6 +301,8 @@ else if (status === "failed" && sequence === "recurring") {
 📦 Plan: ${planType}
 💵 Amount: ${currency} ${amount}
 🧾 Customer ID: ${customerId}
+📄 Subscription ID: ${payment.subscriptionId}
+💬 Reason: ${failReason || "Unknown"}
 🕒 Time: ${timeCET} (CET)
 
 We could not process your renewal payment.
@@ -298,8 +312,10 @@ Warm regards,
 Deepak Team
 support@realcoachdeepak.com
 `;
+
   await sendBrevoEmail(email, `Subscription Renewal Failed – ${planType}`, emailBody);
 }
+
 
 // ❌ 4️⃣ Initial Payment Failed (handles missing sequenceType)
 else if (status === "failed" && sequence !== "recurring") {
