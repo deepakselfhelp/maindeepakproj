@@ -163,10 +163,10 @@ support@realcoachdeepak.com
   if (!isRecurring) return res.status(200).send("OK");
 
   await new Promise(r => setTimeout(r, 8000));
- // 📅 Calculate subscription start date (30 days from today)
- const startDateObj = new Date();
- startDateObj.setMonth(startDateObj.getMonth() + 1);
- const subscriptionStartDate = startDateObj.toISOString().split("T")[0];
+// 📅 Calculate subscription start date (14 days from today)
+const startDateObj = new Date();
+startDateObj.setDate(startDateObj.getDate() + 14);   // ⭐ 14-day trial
+const subscriptionStartDate = startDateObj.toISOString().split("T")[0];
 
  // 🧾 Create subscription (first billing AFTER 30 days)
 const subRes = await fetch(
@@ -179,9 +179,9 @@ const subRes = await fetch(
     },
     body: JSON.stringify({
       amount: { value: recurringAmount, currency: "EUR" },
-      interval: "1 month",
+      interval: "1 month",   // stays same
       description: `${planType} Subscription`,
-      startDate: subscriptionStartDate,  // <-- ⭐ 30-day delay
+      startDate: subscriptionStartDate,  // now 14 days 
       webhookUrl: "https://realcoachdeepak.com/api/mollie/webhook",
       metadata: { email, name, planType },
     }),
