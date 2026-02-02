@@ -168,7 +168,7 @@ const startDateObj = new Date();
 startDateObj.setDate(startDateObj.getDate() + 14);   // ⭐ 14-day trial
 const subscriptionStartDate = startDateObj.toISOString().split("T")[0];
 
- // 🧾 Create subscription (first billing AFTER 30 days)
+ // 🧾 Create subscription (first billing AFTER 14 days)
 const subRes = await fetch(
   `https://api.mollie.com/v2/customers/${customerId}/subscriptions`,
   {
