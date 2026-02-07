@@ -10,6 +10,7 @@ export default async function handler(req, res) {
     const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
     const body = req.body;
+	console.log("Webhook body:", body);   // <-- ADD HERE FOR LOGS
     const paymentId = body.id || body.paymentId;
 	
    // 🚧 Early duplicate protection (resource + id normalized)
@@ -307,6 +308,44 @@ else if ((status === "failed" || status === "canceled") && payment.subscriptionI
 
 We could not process your renewal payment.
 Please update your payment method or contact support to avoid interruption.
+
+Warm regards,
+Deepak Team
+support@realcoachdeepak.com
+`;
+
+  await sendBrevoEmail(email, `Subscription Renewal Failed – ${planType}`, emailBody);
+}
+
+// ⚠️ 3️⃣b Renewal Failed – Fallback when no subscriptionId or sequenceType is missing
+else if (
+  (status === "failed" || status === "canceled") &&
+  !payment.subscriptionId &&
+  sequence !== "first"
+) {
+  const msg = `⚠️ *RENEWAL FAILED (FALLBACK)*\n━━━━━━━━━━━━━━━
+🕒 *Time:* ${timeCET} (CET)
+📧 *Email:* ${email}
+📦 *Plan:* ${planType}
+💵 *Amount:* ${currency} ${amount}
+🧾 *Customer ID:* ${customerId}
+💬 *Reason:* ${failReason || "Unknown"}
+⚠️ No subscriptionId — fallback triggered.`;
+
+  await sendTelegram(msg);
+
+  const emailBody = `
+🏦 Source: Mollie
+⚠️ SUBSCRIPTION RENEWAL FAILED (FALLBACK)
+📧 Email: ${email}
+📦 Plan: ${planType}
+💵 Amount: ${currency} ${amount}
+🧾 Customer ID: ${customerId}
+💬 Reason: ${failReason || "Unknown"}
+🕒 Time: ${timeCET} (CET)
+
+We could not process your renewal payment.
+Please update your payment method or contact support.
 
 Warm regards,
 Deepak Team
