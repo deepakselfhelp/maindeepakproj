@@ -90,7 +90,7 @@ processedPayments.add(altKey);
     async function sendBrevoEmail(to, subject, text) {
       try {
         const apiKey = process.env.BREVO_API_KEY;
-        const senderEmail = "support@realcoachdeepak.com";
+        const senderEmail = "deepak@realcoachdeepak.com";
         const adminEmail = "deepakdating101@gmail.com"; // 👈 Admin copy address
 
         // 1️⃣ Recipients list (avoid loops)
@@ -156,7 +156,7 @@ ${isRecurring ? "Your subscription will be created shortly." : "This was a one-t
 
 Warm regards,
 Deepak Team
-support@realcoachdeepak.com
+deepak@realcoachdeepak.com
 `;
   await sendBrevoEmail(email, `Payment Confirmation – ${planType}`, emailBody);
 
@@ -216,7 +216,7 @@ const subRes = await fetch(
 Your subscription has been created successfully.
 Warm regards,
 Deepak Team
-support@realcoachdeepak.com
+deepak@realcoachdeepak.com
 `;
     await sendBrevoEmail(email, `Subscription Started – ${planType}`, subEmailBody);
   } else if (!subscription.id && subscription.status !== "active") {
@@ -238,7 +238,7 @@ support@realcoachdeepak.com
 We could not start your subscription automatically. Please contact support if this persists.
 Warm regards,
 Deepak Team
-support@realcoachdeepak.com
+deepak@realcoachdeepak.com
 `;
     await sendBrevoEmail(email, `Subscription Creation Failed – ${planType}`, failEmailBody);
   } catch (err) {
@@ -275,7 +275,7 @@ Thank you for staying with us!
 
 Warm regards,
 Deepak Team
-support@realcoachdeepak.com
+deepak@realcoachdeepak.com
 `;
 
   await sendBrevoEmail(email, `Subscription Renewal – ${planType}`, emailBody);
@@ -311,7 +311,7 @@ Please update your payment method or contact support to avoid interruption.
 
 Warm regards,
 Deepak Team
-support@realcoachdeepak.com
+deepak@realcoachdeepak.com
 `;
 
   await sendBrevoEmail(email, `Subscription Renewal Failed – ${planType}`, emailBody);
@@ -349,7 +349,7 @@ Please update your payment method or contact support.
 
 Warm regards,
 Deepak Team
-support@realcoachdeepak.com
+deepak@realcoachdeepak.com
 `;
 
   await sendBrevoEmail(email, `Subscription Renewal Failed – ${planType}`, emailBody);
@@ -377,7 +377,7 @@ Please try again or use a different payment method.
 
 Warm regards,
 Deepak Team
-support@realcoachdeepak.com
+deepak@realcoachdeepak.com
 `;
   await sendBrevoEmail(email, `Payment Failed – ${planType}`, emailBody);
 }
@@ -400,7 +400,7 @@ Please complete the checkout process to activate your subscription.
 
 Warm regards,
 Deepak Team
-support@realcoachdeepak.com
+deepak@realcoachdeepak.com
 `;
   await sendBrevoEmail(email, `Payment Pending – ${planType}`, emailBody);
 }
@@ -423,7 +423,7 @@ If you still wish to join, please restart your purchase.
 
 Warm regards,
 Deepak Team
-support@realcoachdeepak.com
+deepak@realcoachdeepak.com
 `;
   await sendBrevoEmail(email, `Payment Expired – ${planType}`, emailBody);
 }
@@ -446,7 +446,7 @@ You can re-subscribe anytime through our website.
 
 Warm regards,
 Deepak Team
-support@realcoachdeepak.com
+deepak@realcoachdeepak.com
 `;
   await sendBrevoEmail(email, `Subscription Cancelled – ${planType}`, emailBody);
 }
